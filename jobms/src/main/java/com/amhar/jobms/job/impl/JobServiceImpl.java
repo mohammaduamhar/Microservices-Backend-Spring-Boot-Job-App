@@ -36,7 +36,6 @@ public class JobServiceImpl implements JobService {
 
         List<Job> jobs = jobRepository.findAll();
         List<JobWithCompanyDTO> jobWithCompanyDTOs = new ArrayList<>();
-
         return jobs.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
@@ -48,7 +47,6 @@ public class JobServiceImpl implements JobService {
             Company company = restTemplate.getForObject(
                     "http://COMPANY-SERVICE:8081/api/v1/companies/"+ job.getCompanyId() , Company.class);
             jobWithCompanyDTO.setCompany(company);
-
             return jobWithCompanyDTO;
     }
 
@@ -59,8 +57,10 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job getJobById(Long id) {
-      return   jobRepository.findById(id).orElse(null);
+    public JobWithCompanyDTO getJobById(Long id) {
+
+       Job job =jobRepository.findById(id).orElse(null);
+       return convertToDto(job);
     }
 
     @Override
