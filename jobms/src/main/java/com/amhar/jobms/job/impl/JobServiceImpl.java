@@ -6,6 +6,7 @@ import com.amhar.jobms.job.JobRepository;
 import com.amhar.jobms.job.JobService;
 import com.amhar.jobms.job.dto.JobWithCompanyDTO;
 import com.amhar.jobms.job.external.Company;
+import com.amhar.jobms.job.mapper.JobMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -40,12 +41,13 @@ public class JobServiceImpl implements JobService {
     }
 
     private JobWithCompanyDTO convertToDto(Job job){
-
 //        RestTemplate restTemplate = new RestTemplate();
-            JobWithCompanyDTO jobWithCompanyDTO = new JobWithCompanyDTO();
-            jobWithCompanyDTO.setJob(job);
             Company company = restTemplate.getForObject(
                     "http://COMPANY-SERVICE:8081/api/v1/companies/"+ job.getCompanyId() , Company.class);
+            JobWithCompanyDTO jobWithCompanyDTO = JobMapper.
+                    mapToJobWithCompanyDTO(
+                  job,company
+            );
             jobWithCompanyDTO.setCompany(company);
             return jobWithCompanyDTO;
     }
