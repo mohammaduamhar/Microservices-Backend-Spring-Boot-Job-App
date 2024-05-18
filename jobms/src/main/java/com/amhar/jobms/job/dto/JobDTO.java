@@ -1,9 +1,11 @@
 package com.amhar.jobms.job.dto;
 
-import com.amhar.jobms.job.Job;
 import com.amhar.jobms.job.external.Company;
+import com.amhar.jobms.job.external.Review;
 
-public class JobWithCompanyDTO {
+import java.util.List;
+
+public class JobDTO {
     private Long id;
     private String title;
 
@@ -15,6 +17,16 @@ public class JobWithCompanyDTO {
 
     private  String location;
     private Company company;
+
+    private List<Review> reviews;
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 
     public Long getId() {
         return id;
